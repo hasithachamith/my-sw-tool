@@ -4,20 +4,18 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 import paramiko
 import socket
 import subprocess
-import platformp
+import platform
 import  os
 import time
 
 
 class Ui_MainWindow(object):
 
-
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setFixedSize(1045, 729)
 
-        MainWindow.setStyleSheet("background-color: rgb(35, 114, 150);")
+        MainWindow.setStyleSheet("background-color: rgb(35, 114, 150); color: black;")
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.widget = QtWidgets.QWidget(parent=self.centralwidget)
@@ -27,16 +25,16 @@ class Ui_MainWindow(object):
         self.IP_gb.setGeometry(QtCore.QRect(10, 0, 161, 91))
 
 
-        # Now that 'widget' is defined, it can be used as a parent
         self.host_name_gb = QtWidgets.QGroupBox(parent=self.widget)
         self.host_name_gb.setGeometry(QtCore.QRect(10, 100, 161, 91))
         font = QtGui.QFont()
+
         font.setBold(True)
         font.setItalic(True)
         self.host_name_gb.setFont(font)
         self.host_name_gb.setObjectName("host_name_gb")
 
-        # Ensure widget_5 and groupBox_9 are initialized first
+
         self.widget_5 = QtWidgets.QWidget(self.centralwidget)
         self.widget_5.setGeometry(QtCore.QRect(190, 10, 841, 71))
         self.widget_5.setObjectName("widget_5")
@@ -51,11 +49,11 @@ class Ui_MainWindow(object):
         self.groupBox_9.setTitle("")
         self.groupBox_9.setObjectName("groupBox_9")
 
-        # Assuming 'widget' or another appropriate parent widget/group box is already defined
-        self.show_interface_btn = QtWidgets.QPushButton(self.widget)  # Adjust parent as necessary
-        self.show_interface_btn.setGeometry(QtCore.QRect(10, 200, 161, 24))  # Adjust geometry as necessary
+
+        self.show_interface_btn = QtWidgets.QPushButton(self.widget)
+        self.show_interface_btn.setGeometry(QtCore.QRect(10, 200, 161, 24))
         self.show_interface_btn.setObjectName("show_interface_btn")
-        self.show_interface_btn.setText("Show Interface Status")  # Set button text
+        self.show_interface_btn.setText("Show Interface Status")
 
         self.connect_vm_btn = QtWidgets.QPushButton("Connect to VM", self.groupBox_9)
         self.connect_vm_btn.setGeometry(QtCore.QRect(600, 20, 140, 24))
@@ -77,7 +75,6 @@ class Ui_MainWindow(object):
         self.ping_btn.setStyleSheet("background-color: rgb(212, 225, 221);")
         self.ping_btn.setObjectName("ping_btn")
         self.ping_btn.clicked.connect(self.perform_ping)
-
 
         self.host_name_gb = QtWidgets.QGroupBox(parent=self.widget)
         self.host_name_gb.setGeometry(QtCore.QRect(10, 100, 161, 91))
@@ -179,8 +176,6 @@ class Ui_MainWindow(object):
         self.banner_gb.setStyleSheet("background-color: rgb(206, 216, 229);\n"
                                      "")
 
-
-
         self.banner_gb.setObjectName("banner_gb")
         self.banner_lbl = QtWidgets.QTextEdit(parent=self.banner_gb)
         self.banner_lbl.setGeometry(QtCore.QRect(10, 20, 311, 71))
@@ -243,7 +238,6 @@ class Ui_MainWindow(object):
         self.uploadconfi_btn = QtWidgets.QPushButton(parent=self.widget_3)
         self.uploadconfi_btn.setGeometry(QtCore.QRect(820, 10, 211, 41))
 
-
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
@@ -251,7 +245,6 @@ class Ui_MainWindow(object):
         self.uploadconfi_btn.setStyleSheet("background-color: rgb(190, 252, 255);")
         self.uploadconfi_btn.setObjectName("uploadconfi_btn")
         self.uploadconfi_btn.clicked.connect(self.upload_configuration)
-
 
         self.save_btn = QtWidgets.QPushButton(parent=self.widget_3)
         self.save_btn.setGeometry(QtCore.QRect(820, 60, 211, 41))
@@ -262,7 +255,7 @@ class Ui_MainWindow(object):
         self.save_btn.setStyleSheet("background-color: rgb(190, 252, 255);")
         self.save_btn.setText("Save Configuration")
         self.save_btn.clicked.connect(self.save_configuration)
-        # Inside your setupUi method, after initializing groupBox_9:
+
         self.widget_5 = QtWidgets.QWidget(parent=self.centralwidget)
         self.widget_5.setGeometry(QtCore.QRect(190, 10, 841, 71))
         self.widget_5.setObjectName("widget_5")
@@ -320,10 +313,8 @@ class Ui_MainWindow(object):
         self.connect_btn.setObjectName("connect_btn")
         self.connect_btn.clicked.connect(self.connect_to_vm)
 
-        # click connect button  In the part of the IP, User, Password, command set, is to
-        # command the program to log in to the switch that we want
-        # set to configuration terminal to Cisco switch shown in
-        # “Fig. 5”.
+
+
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -332,12 +323,12 @@ class Ui_MainWindow(object):
 
         self.ping_btn.clicked.connect(self.perform_ping)
         self.create_btn.clicked.connect(self.configure_vlan)
-        # Assume you have a button named self.show_interface_btn for showing interface status
+
         self.show_interface_btn.clicked.connect(self.show_interface_status)
 
 
     def show_arp(self):
-        # Add Paramiko SSH code to show ARP
+
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -346,35 +337,34 @@ class Ui_MainWindow(object):
         password = self.password_tb.toPlainText()
 
         try:
-            # Connect to the switch
+
             ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-            # Start an interactive shell
+
             ssh_shell = ssh_client.invoke_shell()
 
-            # Wait for the prompt to appear
+
             while not ssh_shell.recv_ready():
                 time.sleep(1)
 
-            # Send command to enter privileged mode
+
             ssh_shell.send("enable\n")
             time.sleep(1)
 
-            # Send password for privileged mode if required
+
             output = ssh_shell.recv(1000).decode()
             if "Password" in output:
                 ssh_shell.send(password + "\n")
                 time.sleep(1)
 
-            # Send command to show ARP
+
             ssh_shell.send("show arp\n")
             time.sleep(1)
 
-            # Close the SSH connection
+
             ssh_client.close()
 
             self.clitext.setText("ARP table displayed.")
-            # show the ARP table as output
 
             self.clitext.setText(f"ARP table displayed, output: {output}")
 
@@ -388,7 +378,7 @@ class Ui_MainWindow(object):
         pass
 
     def show_cdp(self):
-        # Add Paramiko SSH code to show CDP
+
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -397,35 +387,34 @@ class Ui_MainWindow(object):
         password = self.password_tb.toPlainText()
 
         try:
-            # Connect to the switch
+
             ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-            # Start an interactive shell
+
             ssh_shell = ssh_client.invoke_shell()
 
-            # Wait for the prompt to appear
             while not ssh_shell.recv_ready():
                 time.sleep(1)
 
-            # Send command to enter privileged mode
+
             ssh_shell.send("enable\n")
             time.sleep(1)
 
-            # Send password for privileged mode if required
+
             output = ssh_shell.recv(1000).decode()
             if "Password" in output:
                 ssh_shell.send(password + "\n")
                 time.sleep(1)
 
-            # Send command to show CDP
+
             ssh_shell.send("show cdp\n")
             time.sleep(1)
 
-            # Close the SSH connection
+
             ssh_client.close()
 
             self.clitext.setText("CDP table displayed.")
-            # show the CDP table as output
+
 
             self.clitext.setText(f"CDP table displayed, output: {output}")
 
@@ -435,7 +424,7 @@ class Ui_MainWindow(object):
         pass
 
     def show_mac_table(self):
-        # Add Paramiko SSH code to show MAC table
+
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -444,35 +433,35 @@ class Ui_MainWindow(object):
         password = self.password_tb.toPlainText()
 
         try:
-            # Connect to the switch
+
             ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-            # Start an interactive shell
+
             ssh_shell = ssh_client.invoke_shell()
 
-            # Wait for the prompt to appear
+
             while not ssh_shell.recv_ready():
                 time.sleep(1)
 
-            # Send command to enter privileged mode
+
             ssh_shell.send("enable\n")
             time.sleep(1)
 
-            # Send password for privileged mode if required
+
             output = ssh_shell.recv(1000).decode()
             if "Password" in output:
                 ssh_shell.send(password + "\n")
                 time.sleep(1)
 
-            # Send command to show MAC table
+
             ssh_shell.send("show mac address-table\n")
             time.sleep(1)
 
-            # Close the SSH connection
+
             ssh_client.close()
 
             self.clitext.setText("MAC table displayed.")
-            # show the MAC table as output
+
 
             self.clitext.setText(f"MAC table displayed, output: {output}")
 
@@ -482,7 +471,7 @@ class Ui_MainWindow(object):
         pass
 
     def show_run(self):
-        # Add Paramiko SSH code to show running configuration
+
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -491,35 +480,32 @@ class Ui_MainWindow(object):
         password = self.password_tb.toPlainText()
 
         try:
-            # Connect to the switch
+
             ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-            # Start an interactive shell
             ssh_shell = ssh_client.invoke_shell()
 
-            # Wait for the prompt to appear
             while not ssh_shell.recv_ready():
                 time.sleep(1)
 
-            # Send command to enter privileged mode
+
             ssh_shell.send("enable\n")
             time.sleep(1)
 
-            # Send password for privileged mode if required
+
             output = ssh_shell.recv(1000).decode()
             if "Password" in output:
                 ssh_shell.send(password + "\n")
                 time.sleep(1)
 
-            # Send command to show running configuration
+
             ssh_shell.send("show running-config\n")
             time.sleep(1)
 
-            # Close the SSH connection
             ssh_client.close()
 
             self.clitext.setText("Running configuration displayed.")
-            # show the running configuration as output
+
 
             self.clitext.setText(f"Running configuration displayed, output: {output}")
 
@@ -527,12 +513,13 @@ class Ui_MainWindow(object):
             self.clitext.setText("Authentication failed. Please check your credentials.")
 
         pass
+
     def on_set_banner_click(self):
-        # set the banner
+
         if self.banner_lbl.toPlainText() == "":
             self.clitext.setText("Please enter the banner text")
         else:
-            # Create SSH client
+
             ssh_client = paramiko.SSHClient()
             ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -542,35 +529,35 @@ class Ui_MainWindow(object):
             banner_text = self.banner_lbl.toPlainText()
 
             try:
-                # Connect to the switch
+
                 ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-                # Start an interactive shell
+
                 ssh_shell = ssh_client.invoke_shell()
 
-                # Wait for the prompt to appear
+
                 while not ssh_shell.recv_ready():
                     time.sleep(1)
 
-                # Send command to enter privileged mode
+
                 ssh_shell.send("enable\n")
                 time.sleep(1)
 
-                # Send password for privileged mode if required
+
                 output = ssh_shell.recv(1000).decode()
                 if "Password" in output:
                     ssh_shell.send(password + "\n")
                     time.sleep(1)
 
-                # Send command to enter configuration terminal mode
+
                 ssh_shell.send("configure terminal\n")
                 time.sleep(1)
 
-                # Send command to set banner
+
                 ssh_shell.send(f"banner motd {banner_text}\n")
                 time.sleep(1)
 
-                # Close the SSH connection
+
                 ssh_client.close()
 
                 self.clitext.setText(f"Banner set to {banner_text}.")
@@ -583,7 +570,7 @@ class Ui_MainWindow(object):
                 self.clitext.setText("An error occurred")
 
     def show_ssh(self):
-        # Add Paramiko SSH code to show SSH
+
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -592,35 +579,34 @@ class Ui_MainWindow(object):
         password = self.password_tb.toPlainText()
 
         try:
-            # Connect to the switch
+
             ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-            # Start an interactive shell
+
             ssh_shell = ssh_client.invoke_shell()
 
-            # Wait for the prompt to appear
+
             while not ssh_shell.recv_ready():
                 time.sleep(1)
 
-            # Send command to enter privileged mode
+
             ssh_shell.send("enable\n")
             time.sleep(1)
 
-            # Send password for privileged mode if required
+
             output = ssh_shell.recv(1000).decode()
             if "Password" in output:
                 ssh_shell.send(password + "\n")
                 time.sleep(1)
 
-            # Send command to show SSH
+
             ssh_shell.send("show ssh\n")
             time.sleep(1)
 
-            # Close the SSH connection
+
             ssh_client.close()
 
             self.clitext.setText("SSH table displayed.")
-            # show the SSH table as output
 
             self.clitext.setText(f"SSH table displayed, output: {output}")
 
@@ -630,7 +616,7 @@ class Ui_MainWindow(object):
         pass
 
     def show_interface(self):
-        # Add Paramiko SSH code to show interface
+
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -639,35 +625,35 @@ class Ui_MainWindow(object):
         password = self.password_tb.toPlainText()
 
         try:
-            # Connect to the switch
+
             ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-            # Start an interactive shell
+
             ssh_shell = ssh_client.invoke_shell()
 
-            # Wait for the prompt to appear
+
             while not ssh_shell.recv_ready():
                 time.sleep(1)
 
-            # Send command to enter privileged mode
+
             ssh_shell.send("enable\n")
             time.sleep(1)
 
-            # Send password for privileged mode if required
+
             output = ssh_shell.recv(1000).decode()
             if "Password" in output:
                 ssh_shell.send(password + "\n")
                 time.sleep(1)
 
-            # Send command to show interface
+
             ssh_shell.send("show interface\n")
             time.sleep(1)
 
-            # Close the SSH connection
+
             ssh_client.close()
 
             self.clitext.setText("Interface table displayed.")
-            # show the Interface table as output
+
 
             self.clitext.setText(f"Interface table displayed, output: {output}")
 
@@ -675,11 +661,12 @@ class Ui_MainWindow(object):
             self.clitext.setText("Authentication failed. Please check your credentials.")
 
         pass
+
     def cliOpen(self):
         try:
-            if os.name == 'nt':  # Windows
+            if os.name == 'nt':
                 subprocess.Popen("cmd", creationflags=subprocess.CREATE_NEW_CONSOLE)
-            else:  # UNIX, macOS, Linux, etc.
+            else:
                 subprocess.Popen(
                     ["gnome-terminal" if os.environ.get("DESKTOP_SESSION") == "gnome" else "x-terminal-emulator"])
         except Exception as e:
@@ -699,9 +686,8 @@ class Ui_MainWindow(object):
         self.vlan_lbl_2.clear()
         self.banner_lbl.clear()
 
-
     def save_configuration(self):
-        # Get the configuration data from the fields
+
         ip = self.IPadd_tb.toPlainText()
         username = self.uname_tb.toPlainText()
         password = self.password_tb.toPlainText()
@@ -714,10 +700,10 @@ class Ui_MainWindow(object):
         vlan_id_2 = self.vlan_lbl_2.toPlainText()
         banner_text = self.banner_lbl.toPlainText()
 
-        # Create the configuration data string
+
         config_data = f"{ip}\n{username}\n{password}\n{hostname}\n{add_ip}\n{vlan_id}\n{vlan_name}\n{switchport}\n{port}\n{vlan_id_2}\n{banner_text}"
 
-        # Save the configuration data to a file
+
         try:
             with open("config.txt", "w") as file:
                 file.write(config_data)
@@ -726,7 +712,7 @@ class Ui_MainWindow(object):
             self.clitext.setText(f"An error occurred: {e}")
 
     def upload_configuration(self):
-        # Load the configuration data from the file
+
         try:
             with open("config.txt", "r") as file:
                 config_data = file.read().splitlines()
@@ -737,7 +723,7 @@ class Ui_MainWindow(object):
             self.clitext.setText(f"An error occurred: {e}")
             return
 
-        # Set the configuration data to the fields
+
         self.IPadd_tb.setPlainText(config_data[0])
         self.uname_tb.setPlainText(config_data[1])
         self.password_tb.setPlainText(config_data[2])
@@ -750,8 +736,6 @@ class Ui_MainWindow(object):
         self.vlan_lbl_2.setPlainText(config_data[9])
         self.banner_lbl.setPlainText(config_data[10])
 
-
-
     def configure_switch_port(self):
         vlan_id = self.vlan_lbl.toPlainText()
         vlan_name = self.vlanname_lbl.toPlainText()
@@ -761,46 +745,44 @@ class Ui_MainWindow(object):
         username = self.uname_tb.toPlainText()
         password = self.password_tb.toPlainText()
 
-        # Create SSH client
+
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         try:
-            # Connect to the switch
+
             ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-            # Start an interactive shell
+
             ssh_shell = ssh_client.invoke_shell()
 
-            # Wait for the prompt to appear
+
             while not ssh_shell.recv_ready():
                 time.sleep(1)
 
-            # Send command to enter privileged mode
+
             ssh_shell.send("enable\n")
             time.sleep(1)
 
-            # Send password for privileged mode if required
+
             output = ssh_shell.recv(1000).decode()
             if "Password" in output:
                 ssh_shell.send(password + "\n")
                 time.sleep(1)
 
-            # Send command to enter configuration terminal mode
+
             ssh_shell.send("configure terminal\n")
             time.sleep(1)
 
-            # Send command to configure switch port
+
             ssh_shell.send(f"interface FastEthernet0/{switch_port}\n")
             time.sleep(1)
 
 
-
-            # Send command to set switch port VLAN
             ssh_shell.send(f"switchport access vlan {vlan_id}\n")
             time.sleep(1)
 
-            # Close the SSH connection
+
             ssh_client.close()
 
             self.clitext.setText(f"Successfully configured switch port {switch_port} to VLAN {vlan_id}.")
@@ -814,12 +796,12 @@ class Ui_MainWindow(object):
 
     def perform_ping(self):
         ip_address = self.add_ip_lbl.toPlainText()
-        # Here you would add your Paramiko SSH code to perform a ping
+
         try:
-            # Execute ping command
+
             output = subprocess.check_output(["ping", "-c", "4", ip_address])
 
-            # Check if the output contains "bytes from" to confirm successful ping
+
             if b"bytes from" in output:
                 self.clitext.setText(f"Host {ip_address} is reachable.")
             else:
@@ -835,74 +817,73 @@ class Ui_MainWindow(object):
         ip = self.IPadd_tb.toPlainText()
         username = self.uname_tb.toPlainText()
         password = self.password_tb.toPlainText()
-        # Create SSH client
+
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         try:
-            # Connect to the switch
+
             ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-            # Start an interactive shell
+
             ssh_shell = ssh_client.invoke_shell()
 
-            # Wait for the prompt to appear
+
             while not ssh_shell.recv_ready():
                 time.sleep(1)
 
-            # Send command to enter privileged mode
+
             ssh_shell.send("enable\n")
             time.sleep(1)
 
-            # Send password for privileged mode if required
+
             output = ssh_shell.recv(1000).decode()
             if "Password" in output:
                 ssh_shell.send(password + "\n")
                 time.sleep(1)
 
-            # Send command to enter configuration terminal mode
+
             ssh_shell.send("configure terminal\n")
             time.sleep(1)
 
-            # Send command to create VLAN
+
             ssh_shell.send(f"vlan {vlan_id}\n")
             time.sleep(1)
 
-            # Send command to set VLAN name
+
             ssh_shell.send(f"name {vlan_name}\n")
             time.sleep(1)
 
-            # Close the SSH connection
+
             ssh_client.close()
 
-            #print(f"Successfully created VLAN {vlan_number} with name {vlan_name}.")
+
             self.clitext.setText(f"Successfully created VLAN {vlan_id} with name {vlan_name}.")
 
         except paramiko.AuthenticationException:
-            #print("Authentication failed. Please check your credentials.")
+
             self.clitext.setText("Authentication failed. Please check your credentials.")
         except paramiko.SSHException as ssh_err:
-           # print("SSH error:", ssh_err)
+
             self.clitext.setText("SSH error:")
         except Exception as e:
-            #print("An error occurred:", e)
+
             self.clitext.setText("An error occurred:")
-        # Add Paramiko SSH code to configure VLAN
 
 
     def show_interface_status(self):
-        # Add Paramiko SSH code to show interface status
+
         result = "Interface status ..."
         self.clitext.setText(result)
 
         pass
 
     def on_set_click(self):
-        # set the hostname
+
         if self.hostname_lbl.toPlainText() == "":
             self.clitext.setText("Please enter the hostname")
         else:
-            # Create SSH client
+
             ssh_client = paramiko.SSHClient()
             ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -912,105 +893,103 @@ class Ui_MainWindow(object):
             hostname = self.hostname_lbl.toPlainText()
 
             try:
-                # Connect to the switch
+
                 ssh_client.connect(hostname=ip, username=username, password=password, timeout=5)
 
-                # Start an interactive shell
+
                 ssh_shell = ssh_client.invoke_shell()
 
-                # Wait for the prompt to appear
+
                 while not ssh_shell.recv_ready():
                     time.sleep(1)
 
-                # Send command to enter privileged mode
+
                 ssh_shell.send("enable\n")
                 time.sleep(1)
 
-                # Send password for privileged mode if required
+
                 output = ssh_shell.recv(1000).decode()
                 if "Password" in output:
                     ssh_shell.send(password + "\n")
                     time.sleep(1)
 
-                # Send command to configure terminal mode
+
                 ssh_shell.send("configure terminal\n")
                 time.sleep(1)
 
-                # Send command to set hostname
+
                 ssh_shell.send(f"hostname {hostname}\n")
                 time.sleep(1)
 
-                # Close the SSH connection
+
                 ssh_client.close()
 
-                #print(f"Hostname set to {hostname}.")
+
                 self.clitext.setText(f"Hostname set to {hostname}.")
 
             except paramiko.AuthenticationException:
-                #print("Authentication failed. Please check your credentials.")
+
                 self.clitext.setText("Authentication failed. Please check your credentials.")
             except paramiko.SSHException as ssh_err:
-               # print("SSH error:", ssh_err)
+
                 self.clitext.setText("SSH error")
             except Exception as e:
-                #print("An error occurred:", e)
+
                 self.clitext.setText("An error occurred")
 
-
     def on_ping_click(self):
-        # Define the font to be used when the button is clicked
+
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
 
-        # Set the new font, change the background color, and set object name on click
+
         self.ping_btn.setFont(font)
         self.ping_btn.setStyleSheet("background-color: rgb(100, 150, 100);")
         self.ping_btn.setObjectName("Disconnect")
-        # check ip address
+
         if self.add_ip_lbl.toPlainText() == "":
             self.clitext.setText("Please enter the IP address")
         else:
-            # Create an SSH client instance
+
             ssh = paramiko.SSHClient()
-            # ping the server with the IP address without username and password using the ping command
+
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.ping(self.add_ip_lbl.toPlainText())
 
     def on_click(self):
-        # Define the font to be used when the button is clicked
+
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
 
-        # Set the new font, change the background color, and set object name on click
+
         self.connect_btn.setFont(font)
-        self.connect_btn.setStyleSheet("background-color: rgb(100, 150, 100);")  # Changing color for demonstration
+        self.connect_btn.setStyleSheet("background-color: rgb(100, 150, 100);")
         self.connect_btn.setObjectName("Disconnect")
-        # check ip address and username and password
+
         if self.IPadd_tb.toPlainText() == "" or self.uname_tb.toPlainText() == "" or self.password_tb.toPlainText() == "":
             self.clitext.setText("Please enter the IP address, username and password")
         else:
-            # Create an SSH client instance
+
             ssh = paramiko.SSHClient()
-            # Automatically add the server’s host key to the local HostKeys object
+
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            # Connect to the server
-            ssh.connect(self.IPadd_tb.toPlainText(), username=self.uname_tb.toPlainText(), password=self.password_tb.toPlainText())
-            # Send the command (a string) to the server
+
+            ssh.connect(self.IPadd_tb.toPlainText(), username=self.uname_tb.toPlainText(),
+                        password=self.password_tb.toPlainText())
+
             stdin, stdout, stderr = ssh.exec_command('conf t')
-            # Read the output from the command
+
             output = stdout.read()
-            # Print the output
+
             self.clitext.setText(output.decode())
-            # Close the connection
+
             ssh.close()
-
-
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -1044,46 +1023,43 @@ class Ui_MainWindow(object):
         self.password_lbl.setText(_translate("MainWindow", "Password"))
         self.connect_btn.setText(_translate("MainWindow", "Connect"))
 
-
-
-
     def connect_to_vm(self):
-        # Your connect_to_vm method implementation goes here
+
         ip_address = self.IPadd_tb.toPlainText()
         username = self.uname_tb.toPlainText()
         password = self.password_tb.toPlainText()
 
-        # Create SSH client
+
         ssh_client = paramiko.SSHClient()
         ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         try:
-            # Connect to the switch
+
             ssh_client.connect(hostname=ip_address, username=username, password=password, timeout=5)
 
-            # Start an interactive shell
+
             ssh_shell = ssh_client.invoke_shell()
 
-            # Wait for the prompt to appear
+
             while not ssh_shell.recv_ready():
                 time.sleep(1)
 
-            # Send command to enter privileged mode
+
             ssh_shell.send("enable\n")
 
             time.sleep(1)
 
-            # Send password for privileged mode if required
+
             output = ssh_shell.recv(1000).decode()
             if "Password" in output:
                 ssh_shell.send(password + "\n")
                 time.sleep(1)
 
-            # Send command to enter configuration terminal mode
+
             ssh_shell.send("configure terminal\n")
             time.sleep(1)
 
-            # Close the SSH connection
+
             ssh_client.close()
 
             self.clitext.setText('Successfully Cnfigured  a switch')
@@ -1099,10 +1075,7 @@ class Ui_MainWindow(object):
             self.clitext.setText("An error occurred")
 
 
-
-
-
-if __name__=='__main__':
+if __name__ == '__main__':
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
