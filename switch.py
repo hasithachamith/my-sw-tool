@@ -1,10 +1,10 @@
 import socket
 import select
 
-HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
+HOST = '127.0.0.1'  
+PORT = 65432        
 
-# Create a socket for the switch
+
 switch_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 switch_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 switch_socket.bind((HOST, PORT))
